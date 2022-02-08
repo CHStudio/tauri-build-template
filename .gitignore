@@ -4,6 +4,7 @@ node_modules
 
 # Gitlab runner
 builds/
+.gitlab-ci-local/
 
 # local env files
 .env.local

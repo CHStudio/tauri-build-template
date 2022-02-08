@@ -25,6 +25,7 @@ build-front:       # This job runs in the build stage, which runs first.
   image: node:16
   stage: build
   script:
+    - ls -lah
     - yarn install
     - yarn build
     - ls -lah
@@ -34,14 +35,17 @@ build-front:       # This job runs in the build stage, which runs first.
       - dist
 
 compile-binary:
-  image: rust:1-slim-buster
+  image: rust:1-buster
   stage: compile
-  dependencies:
-    - build-front
+  needs:
+    - job: build-front
+      artifacts: true
+
   script:
-    - cargo install tauri-cli --git https://github.com/tauri-apps/tauri
     - ls -lah
+    - cargo install tauri-cli --git https://github.com/tauri-apps/tauri
     - cargo tauri build
+    - ls -lah
 
 unit-test:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
