@@ -13,50 +13,61 @@
 #
 # For more information, see: https://docs.gitlab.com/ee/ci/yaml/index.html#stages
 
-variables:
-  GIT_STRATEGY: none
+cache:
+  untracked: true
+  key: "$CI_BUILD_REF_NAME"
+  paths:
+    - node_modules/
+    - src-tauri/target/
 
 stages:
   - build
-  - compile
   - test
+  - compile
 
 build-front:       # This job runs in the build stage, which runs first.
   image: node:16
   stage: build
   script:
-    - ls -lah
-    - yarn install
+    - yarn install --force
     - yarn build
-    - ls -lah
   artifacts:
-    expire_in: 1 day
+    expire_in: 1 hour
     paths:
       - dist
-
-compile-binary:
-  image: rust:1-buster
-  stage: compile
-  needs:
-    - job: build-front
-      artifacts: true
-
-  script:
-    - ls -lah
-    - cargo install tauri-cli --git https://github.com/tauri-apps/tauri
-    - cargo tauri build
-    - ls -lah
+      - node_modules
 
 unit-test:   # This job runs in the test stage.
+  image: node:16
   stage: test    # It only starts when the job in the build stage completes successfully.
   dependencies:
     - build-front
   script:
-    - "echo \"TODO: add tests...\""
+    - |
+      node -e "process.stdout.write('TODO: add tests...');"
 
 lint-front:   # This job also runs in the test stage.
+  image: node:16
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   dependencies:
     - build-front
   script:
     - yarn lint
+
+compile-binary:
+  image: rust:1-slim-buster
+  stage: compile
+  dependencies:
+    - unit-test
+    - lint-front
+    - build-front
+  script:
+    # For whole list of needed packages for Tauri, check this link:
+    # https://tauri.studio/docs/get-started/setup-linux#1-system-dependencies
+    # For example, patchelf and librsvg2 are used to generate an appimage file.
+    - apt-get update && apt-get upgrade -y --no-install-recommends build-essential curl wget libssl-dev libgtk-3-dev libappindicator3-dev patchelf librsvg2-dev libsoup2.4 libsoup2.4-dev libwebkit2gtk-4.0 libwebkit2gtk-4.0-dev
+    - ./bin/tauri build
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - src-tauri/target/release/
