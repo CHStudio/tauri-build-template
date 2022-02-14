@@ -68,6 +68,6 @@ compile-binary:
     - apt-get update && apt-get upgrade -y --no-install-recommends build-essential curl wget libssl-dev libgtk-3-dev libappindicator3-dev patchelf librsvg2-dev libsoup2.4 libsoup2.4-dev libwebkit2gtk-4.0 libwebkit2gtk-4.0-dev
     - ./bin/tauri build
   artifacts:
-    expire_in: 1 hour
+    expire_in: 1 day
     paths:
-      - src-tauri/target/release/
+      - src-tauri/target/release/bundle/
