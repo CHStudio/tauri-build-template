@@ -15,30 +15,32 @@
 
 ## Project setup
 
+### Install
+
 ```
 yarn install
-yarn tauri deps install
 ```
 
-### Compiles and hot-reloads for development
+> Don't need to install Rust dependencies, since running `cargo` commands like `cargo run` will automatically download and compile dependencies.
+
+### Run the app in dev mode
 
 ```
-yarn serve # Frontend
-yarn tauri dev # Backend
+yarn tauri:serve
 ```
 
-### Compiles and minifies for production
+> Since the project uses `vue-cli-plugin-tauri`, running `tauri:serve` will automatically run `yarn serve` beforehand, so the HTTP server is available when the Tauri apps is running. 
+
+### Compile for production
 
 ```
-yarn build # Build frontend into the "dist/" directory
-yarn tauri build # Builds backend in the src-tauri/target/release directory
+yarn tauri:build
 ```
+
+> This command builds the app in the `src-tauri/target/release/` directory.
 
 ### Lints and fixes files
 
 ```
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
