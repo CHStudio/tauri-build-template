@@ -21,8 +21,7 @@ RUN set -xe \
     && `# Node.js` \
     && (curl -fsSL https://deb.nodesource.com/setup_16.x | bash -) \
     && apt-get install -y --no-install-recommends nodejs \
+    && npm i -g yarn \
     \
     && `# Rust` \
-    && (curl https://sh.rustup.rs -sSf | bash -s -- -y) \
-    && . $HOME/.cargo/env \
-    && cargo install tauri-cli --git https://github.com/tauri-apps/tauri \
+    && (curl https://sh.rustup.rs -sSf | bash -s -- -y)

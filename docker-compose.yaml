@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+    app:
+        build:
+            dockerfile: Dockerfile
+            context: .
+        network_mode: host
+        environment:
+            DISPLAY: 'host.docker.internal:0'
+        working_dir: /srv
+        volumes:
+            - './:/srv'
+            - '$HOME/.cargo/git:/root/.cargo/git'
+            - '$HOME/.cargo/registry:/root/.cargo/registry'
+        command: ['yarn', 'tauri:serve']
