@@ -4,6 +4,6 @@
 
 <style scoped>
 h2 {
-  color: #ff0000;
+  color: #811;
 }
 </style>
