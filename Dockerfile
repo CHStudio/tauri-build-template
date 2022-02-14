@@ -24,4 +24,20 @@ RUN set -xe \
     && npm i -g yarn \
     \
     && `# Rust` \
-    && (curl https://sh.rustup.rs -sSf | bash -s -- -y)
+    && (curl https://sh.rustup.rs -sSf | bash -s -- -y) \
+    \
+    && `# Clean apt and remove unused libs/packages to make image smaller` \
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false \
+    && apt-get -y autoremove \
+    && apt-get clean \
+    && rm -rf \
+    /var/lib/apt/lists/* \
+    /tmp/* \
+    /var/tmp/* \
+    /var/www/* \
+    /var/cache/* \
+    /usr/share/doc/* \
+    /usr/share/icons/* \
+    /root/.npm/* \
+    /root/.cargo/registry/* \
+    /root/.cargo/git/*
