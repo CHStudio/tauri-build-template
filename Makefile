@@ -1,6 +1,7 @@
 SHELL=bash
 
-DOCKER_COMPOSE  = docker-compose
+DOCKER = docker
+DOCKER_COMPOSE = docker-compose
 YARN = $(DOCKER_COMPOSE) run -T app yarn
 
 # Helper variables
@@ -21,7 +22,7 @@ install: build node_modules start  ## Install and start the project
 .PHONY: install
 
 build:
-	@$(DOCKER_COMPOSE) pull --include-deps
+	@$(DOCKER) build --tag ch-desktop ./docker/
 	@$(DOCKER_COMPOSE) build --force-rm --compress
 .PHONY: build
 
@@ -51,6 +52,7 @@ clean: ## Stop the project and remove generated files and configuration
 	$(DOCKER_COMPOSE) down --volumes --remove-orphans \
 	&& rm -rf \
 		node_modules/ \
+		webdriver/webdriverio/node_modules/ \
 		dist/ \
 		.gitlab-ci-local/ \
 		src-tauri/target/ \
@@ -60,4 +62,5 @@ clean: ## Stop the project and remove generated files and configuration
 
 node_modules:
 	$(YARN) install
+	$(YARN) --cwd webdriver/webdriverio install
 .PHONY: node_modules

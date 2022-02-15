@@ -2,6 +2,10 @@ FROM debian:10-slim
 
 ENV PATH=/home/.cargo/bin:$PATH
 
+COPY docker/entrypoint.sh /bin/entrypoint
+
+ENTRYPOINT ["/bin/entrypoint"]
+
 RUN set -xe \
     && apt-get update \
     && apt-get upgrade -y \
@@ -13,6 +17,7 @@ RUN set -xe \
         libgtk-3-dev libsoup2.4 libsoup2.4-dev libwebkit2gtk-4.0 libwebkit2gtk-4.0-dev \
         patchelf librsvg2-dev `# For Tauri to be able to create a linux image` \
         libappindicator3-dev `# For Tauri to use the system tray feature` \
+        webkit2gtk-driver `# For testing, creates a webdriver to GTK-based apps` \
         git \
         wget \
         curl \
