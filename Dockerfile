@@ -1,6 +1,6 @@
 FROM debian:10-slim
 
-ENV PATH=/home/.cargo/bin:$PATH
+ENV PATH=/root/.cargo/bin:$PATH
 
 COPY docker/entrypoint.sh /bin/entrypoint
 
