@@ -1,4 +1,6 @@
-FROM debian:10-slim
+FROM ubuntu:21.10
+
+ARG DEBIAN_FRONTEND=noninteractive
 
 ENV PATH=/root/.cargo/bin:$PATH
 
