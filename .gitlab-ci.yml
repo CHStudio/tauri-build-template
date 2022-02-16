@@ -26,7 +26,7 @@ stages:
   - compile
 
 build-front:       # This job runs in the build stage, which runs first.
-  image: node:16
+  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
   stage: build
   script:
     - yarn install --force
@@ -38,16 +38,15 @@ build-front:       # This job runs in the build stage, which runs first.
       - node_modules
 
 unit-test:   # This job runs in the test stage.
-  image: node:16
+  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
   stage: test    # It only starts when the job in the build stage completes successfully.
   dependencies:
     - build-front
   script:
-    - |
-      node -e "process.stdout.write('TODO: add tests...');"
+    - yarn test
 
 lint-front:   # This job also runs in the test stage.
-  image: node:16
+  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   dependencies:
     - build-front
@@ -55,17 +54,12 @@ lint-front:   # This job also runs in the test stage.
     - yarn lint
 
 compile-binary:
-  image: rust:1-slim-buster
+  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
   stage: compile
   dependencies:
     - unit-test
     - lint-front
     - build-front
-  before_script:
-    # For whole list of needed packages for Tauri, check this link:
-    # https://tauri.studio/docs/get-started/setup-linux#1-system-dependencies
-    # For example, patchelf and librsvg2 are used to generate an appimage file.
-    - apt-get update && apt-get upgrade -y --no-install-recommends build-essential curl wget libssl-dev libgtk-3-dev libappindicator3-dev patchelf librsvg2-dev libsoup2.4 libsoup2.4-dev libwebkit2gtk-4.0 libwebkit2gtk-4.0-dev webkit2gtk-driver
   script:
     - ./bin/tauri build
   artifacts:

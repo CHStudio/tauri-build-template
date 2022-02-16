@@ -64,3 +64,12 @@ node_modules:
 	$(YARN) install
 	$(YARN) --cwd webdriver/webdriverio install
 .PHONY: node_modules
+
+##
+## QA
+## ──
+##
+
+test:
+	$(YARN) test
+.PHONY: test
