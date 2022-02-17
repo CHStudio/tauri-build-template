@@ -22,7 +22,7 @@ install: build node_modules start  ## Install and start the project
 .PHONY: install
 
 build:
-	@$(DOCKER) build --tag --pull --compress registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop .
+	@$(DOCKER) build --compress --tag registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop .
 	@$(DOCKER_COMPOSE) build --force-rm --compress
 .PHONY: build
 

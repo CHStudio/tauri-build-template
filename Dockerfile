@@ -4,10 +4,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV PATH=/root/.cargo/bin:$PATH
 
-COPY docker/entrypoint.sh /bin/entrypoint
-
-ENTRYPOINT ["/bin/entrypoint"]
-
 RUN set -xe \
     && apt-get update \
     && apt-get upgrade -y \
