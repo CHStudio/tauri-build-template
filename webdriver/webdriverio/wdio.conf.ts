@@ -15,6 +15,18 @@ exports.config = {
       "tauri:options": {
         application: "../../src-tauri/target/release/ch-desktop",
       },
+      'goog:chromeOptions': {
+        args: [
+          '--no-sandbox',
+          '--disable-infobars',
+          '--headless',
+          '--disable-gpu',
+          '--window-size=1440,735'
+        ],
+      },
+      'moz:firefoxOptions': {
+        args: ['-headless']
+      },
     },
   ],
   reporters: ["spec"],
@@ -23,6 +35,13 @@ exports.config = {
     ui: "bdd",
     timeout: 60000,
   },
+  headless: true,
+
+  // Level of logging verbosity: trace | debug | info | warn | error | silent
+  logLevel: 'trace',
+
+  // Set directory to store all logs into
+  outputDir: 'test_logs',
 
   autoCompileOpts: {
     autoCompile: true,
