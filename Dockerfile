@@ -26,6 +26,11 @@ RUN set -xe \
     && apt-get install -y --no-install-recommends nodejs \
     && npm i -g yarn \
     \
+    && `# Disable IPV6 for Tauri to be able to run its driver with IPV4 in local` \
+    && sysctl -w net.ipv6.conf.all.disable_ipv6=1 \
+    && sysctl -w net.ipv6.conf.default.disable_ipv6=1 \
+    && sysctl -w net.ipv6.conf.lo.disable_ipv6=1 \
+    \
     && `# Rust` \
     && (curl https://sh.rustup.rs -sSf | bash -s -- -y) \
     \
