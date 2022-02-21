@@ -190,6 +190,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.18.tgz#3b4fed5cfb58010e3a2be4b6e74615e4847f1074"
   integrity sha512-eKj4f/BsN/qcculZiRSujogjvp5O/k4lOW5m35NopjZM/QwLOR075a8pJW5hD+Rtdm2DaCVPENS6KtSQnUD6BA==
 
+"@types/node@^17.0.19":
+  version "17.0.19"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.19.tgz#726171367f404bfbe8512ba608a09ebad810c7e6"
+  integrity sha512-PfeQhvcMR4cPFVuYfBN4ifG7p9c+Dlh3yUZR6k+5yQK7wX3gDgVxBly4/WkBRs9x4dmcy1TVl08SY67wwtEvmA==
+
 "@types/object-inspect@^1.8.0":
   version "1.8.1"
   resolved "https://registry.yarnpkg.com/@types/object-inspect/-/object-inspect-1.8.1.tgz#7c08197ad05cc0e513f529b1f3919cc99f720e1f"
@@ -272,7 +277,7 @@
   resolved "https://registry.yarnpkg.com/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
 
-"@wdio/cli@^7.9.1":
+"@wdio/cli@^7.16.15":
   version "7.16.15"
   resolved "https://registry.yarnpkg.com/@wdio/cli/-/cli-7.16.15.tgz#0d59996736159ed0648d47d7c4e6b481858cd196"
   integrity sha512-dU+KiLiYu9NgyiAk3sgcMkAGVOMUNG+hpHKnMgmDgF+oOv+MuD1XweNYq1eaTqtz2B5qclC/m12pzoOTSmtypg==
@@ -315,7 +320,7 @@
     deepmerge "^4.0.0"
     glob "^7.1.2"
 
-"@wdio/local-runner@^7.9.1":
+"@wdio/local-runner@^7.16.15":
   version "7.16.15"
   resolved "https://registry.yarnpkg.com/@wdio/local-runner/-/local-runner-7.16.15.tgz#573779f3045d7efe0a63c8f2c6fc80aceff09bb0"
   integrity sha512-uI5FXHH+TIH+WONzMKMe/SnuRa1HHmfHBOKjb0tKyNIcHvMZZkBnlgJhIsAhc+eh5PM8XyjO7ForCvXDn0ykqA==
@@ -339,7 +344,7 @@
     loglevel-plugin-prefix "^0.8.4"
     strip-ansi "^6.0.0"
 
-"@wdio/mocha-framework@^7.9.1":
+"@wdio/mocha-framework@^7.16.15":
   version "7.16.15"
   resolved "https://registry.yarnpkg.com/@wdio/mocha-framework/-/mocha-framework-7.16.15.tgz#3eec88296ad637c3fc6a85ac8d37772b9c7f886b"
   integrity sha512-XRya85/RYPZk4MZ7Cvl3oudTdrOo+RyO8b5Ff+dH8hD3GBCACaWgW9AjbsyhvbSTdUlF0gNLPdqOCsxV5XyM3w==
@@ -393,7 +398,7 @@
     webdriver "7.16.14"
     webdriverio "7.16.15"
 
-"@wdio/spec-reporter@^7.9.0":
+"@wdio/spec-reporter@^7.16.14":
   version "7.16.14"
   resolved "https://registry.yarnpkg.com/@wdio/spec-reporter/-/spec-reporter-7.16.14.tgz#7748318ec0ec6875936809d01024b9521fbfcb13"
   integrity sha512-hpS2rLXo91lfrit5/pjDSbff2lqQe+k07/JPOJ48W+ZPSI+ib7rSldI4JFYU4YuKN1TnhkbhxRBMib3bF3Fs+Q==
