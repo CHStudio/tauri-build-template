@@ -1,4 +1,4 @@
-FROM ubuntu:21.10
+FROM debian:10-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -17,8 +17,9 @@ ENTRYPOINT ["/bin/entrypoint"]
 
 RUN set -xe \
     && apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y --no-install-recommends \
+    && apt-get upgrade -y
+
+RUN apt-get install -y --no-install-recommends \
         build-essential \
         ca-certificates \
         libssl-dev `# For Tauri to implement security components` \
@@ -29,36 +30,36 @@ RUN set -xe \
         webkit2gtk-driver `# For testing, creates a webdriver to GTK-based apps` \
         git \
         curl \
-        dialog apt-utils `# Prevents having this issue: https://github.com/moby/moby/issues/27988` \
-    \
-    && `# User and entrypoint management` \
+        dialog apt-utils `# Prevents having this issue: https://github.com/moby/moby/issues/27988`
+
+RUN `# User and entrypoint management` \
     && chmod +x /bin/entrypoint \
-    && curl -L -s -o /bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture | awk -F- '{ print $NF }') \
+    && (curl -L -s -o /bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture | awk -F- '{ print $NF }')) \
     && chmod +x /bin/gosu \
     && mkdir -p ${GOSU_HOME} \
     && groupadd ${GOSU_USER} \
     && adduser --home=${GOSU_HOME} --shell=/bin/bash --ingroup=${GOSU_USER} --disabled-password --quiet --gecos "" --force-badname ${GOSU_USER} \
-    && chown ${GOSU_USER}:${GOSU_USER} ${GOSU_HOME} \
-    \
-    && `# Node.js` \
+    && chown ${GOSU_USER}:${GOSU_USER} ${GOSU_HOME}
+
+RUN `# Node.js` \
     && (curl -fsSL https://deb.nodesource.com/setup_16.x | bash -) \
     && apt-get install -y --no-install-recommends nodejs \
-    && npm i -g npm yarn \
-    \
-    && `# Disable IPV6 for Tauri to be able to run its driver with IPV4 in local` \
-    && sysctl -w net.ipv6.conf.all.disable_ipv6=1 \
-    && sysctl -w net.ipv6.conf.default.disable_ipv6=1 \
-    && sysctl -w net.ipv6.conf.lo.disable_ipv6=1 \
-    \
-    && `# Webdriver binaries` \
+    && npm i -g npm yarn
+
+RUN `# Webdriver binaries` \
     && (curl -L https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar xz -C /usr/local/bin/) \
-    && npm install -g chromedriver \
-    \
-    && `# Rust` \
-    && (curl https://sh.rustup.rs -sSf | bash -s -- -y) \
-    \
-    && `# Clean apt and remove unused libs/packages to make image smaller` \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false \
+    && npm install -g chromedriver
+
+RUN `# Rust` \
+    && gosu ${GOSU_USER}:${GOSU_USER} bash -c 'curl https://sh.rustup.rs -sSf | bash -s -- -y'
+
+RUN `# Disable IPV6 for Tauri to be able to run its driver with IPV4 in local` \
+    && echo "net.ipv6.conf.all.disable_ipv6=1" > /etc/sysctl.conf \
+    && echo "net.ipv6.conf.default.disable_ipv6=1" > /etc/sysctl.conf \
+    && echo "net.ipv6.conf.lo.disable_ipv6=1" > /etc/sysctl.conf
+
+RUN `# Clean apt and remove unused libs/packages to make image smaller` \
+    apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf \
