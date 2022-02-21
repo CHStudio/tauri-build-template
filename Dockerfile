@@ -50,6 +50,10 @@ RUN set -xe \
     && sysctl -w net.ipv6.conf.default.disable_ipv6=1 \
     && sysctl -w net.ipv6.conf.lo.disable_ipv6=1 \
     \
+    && `# Webdriver binaries` \
+    && (curl -L https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar xz -C /usr/local/bin/) \
+    && npm install -g chromedriver \
+    \
     && `# Rust` \
     && (curl https://sh.rustup.rs -sSf | bash -s -- -y) \
     \
