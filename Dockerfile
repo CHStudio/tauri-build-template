@@ -2,7 +2,18 @@ FROM ubuntu:21.10
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PATH=/root/.cargo/bin:$PATH
+ENV \
+    GOSU_VERSION=1.14 \
+    GOSU_WORKDIR=/srv \
+    GOSU_USER="_www" \
+    GOSU_HOME="/home" \
+    PATH=/root/.cargo/bin:$PATH \
+    PATH=${GOSU_WORKDIR}/.cargo/bin:$PATH
+
+WORKDIR /srv
+
+COPY docker/entrypoint.bash /bin/entrypoint
+ENTRYPOINT ["/bin/entrypoint"]
 
 RUN set -xe \
     && apt-get update \
@@ -17,14 +28,22 @@ RUN set -xe \
         libappindicator3-dev `# For Tauri to use the system tray feature` \
         webkit2gtk-driver `# For testing, creates a webdriver to GTK-based apps` \
         git \
-        wget \
         curl \
         dialog apt-utils `# Prevents having this issue: https://github.com/moby/moby/issues/27988` \
+    \
+    && `# User and entrypoint management` \
+    && chmod +x /bin/entrypoint \
+    && curl -L -s -o /bin/gosu https://github.com/tianon/gosu/releases/download/${GOSU_VERSION}/gosu-$(dpkg --print-architecture | awk -F- '{ print $NF }') \
+    && chmod +x /bin/gosu \
+    && mkdir -p ${GOSU_HOME} \
+    && groupadd ${GOSU_USER} \
+    && adduser --home=${GOSU_HOME} --shell=/bin/bash --ingroup=${GOSU_USER} --disabled-password --quiet --gecos "" --force-badname ${GOSU_USER} \
+    && chown ${GOSU_USER}:${GOSU_USER} ${GOSU_HOME} \
     \
     && `# Node.js` \
     && (curl -fsSL https://deb.nodesource.com/setup_16.x | bash -) \
     && apt-get install -y --no-install-recommends nodejs \
-    && npm i -g yarn \
+    && npm i -g npm yarn \
     \
     && `# Disable IPV6 for Tauri to be able to run its driver with IPV4 in local` \
     && sysctl -w net.ipv6.conf.all.disable_ipv6=1 \
