@@ -21,8 +21,7 @@ help: ## Show this help message
 install: build node_modules start  ## Install and start the project
 .PHONY: install
 
-build:
-	@$(DOCKER) build --compress --tag registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop .
+build: build-docker-image
 	@$(DOCKER_COMPOSE) build --force-rm --compress
 .PHONY: build
 
@@ -66,10 +65,23 @@ node_modules:
 .PHONY: node_modules
 
 ##
+## Docker image
+## ──
+##
+
+build-docker-image: ## Build the project's Docker image
+	@$(DOCKER) build --compress --tag registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop .
+.PHONY: build-docker-image
+
+push:  ## Push the project's Docker image to Gitlab's registry
+	$(DOCKER) push registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
+.PHONY: push
+
+##
 ## QA
 ## ──
 ##
 
-test:
+test: ## Execute tests
 	$(YARN) test
 .PHONY: test
