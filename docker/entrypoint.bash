@@ -15,12 +15,5 @@ gid=$(stat -c %g ${GOSU_WORKDIR})
 sed -i -r "s/${GOSU_USER}:x:\d+:\d+:/${GOSU_USER}:x:$uid:$gid:/g" /etc/passwd
 sed -i -r "s/${GOSU_USER}:x:\d+:/${GOSU_USER}:x:$gid:/g" /etc/group
 
-# Force running user home to be owned by user.
-# This can help in case runtime cache is stored in home dir.
-chown -R ${GOSU_USER} ${GOSU_HOME}
-
-# Force application directory to be owned by running user
-chown -R ${GOSU_USER}:${GOSU_USER} ${GOSU_WORKDIR}
-
 # Run docker's CMD with configured user
-exec gosu $GOSU_USER "$@"
+gosu ${GOSU_USER}:${GOSU_USER} $@
