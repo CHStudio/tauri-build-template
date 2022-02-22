@@ -53,8 +53,6 @@ build-front:
     - yarn build
   dependencies:
     - install-front
-  needs:
-    - install-front
   artifacts:
     expire_in: 1 hour
     paths:
@@ -63,9 +61,6 @@ build-front:
 unit-test:   # This job runs in the test stage.
   image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
   stage: test    # It only starts when the job in the build stage completes successfully.
-  needs:
-    - build-front
-    - install-front
   dependencies:
     - build-front
     - install-testing
@@ -83,10 +78,6 @@ lint-front:   # This job also runs in the test stage.
 compile-binary:
   image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
   stage: compile
-  needs:
-    - unit-test
-    - lint-front
-    - build-front
   dependencies:
     - unit-test
     - build-front
