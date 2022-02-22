@@ -1,7 +1,8 @@
 {
   "name": "webdriverio",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "license": "LGPL-3.0-or-later",
   "scripts": {
     "test": "wdio run wdio.conf.ts"
   },
