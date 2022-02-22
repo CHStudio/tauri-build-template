@@ -5,10 +5,11 @@ services:
         image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
         network_mode: host
         environment:
-            DISPLAY: 'host.docker.internal:0'
+            - DISPLAY=host.docker.internal:0
         working_dir: /srv
         volumes:
             - './:/srv'
-            - '$HOME/.cargo/git:/root/.cargo/git'
-            - '$HOME/.cargo/registry:/root/.cargo/registry'
+            - './src-tauri/target/cargo-local/git:/home/.cargo/git'
+            - './src-tauri/target/cargo-local/registry:/home/.cargo/registry'
+            - './docker/entrypoint.bash:/bin/entrypoint'
         command: ['yarn', 'tauri:serve']

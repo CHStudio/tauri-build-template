@@ -2,6 +2,8 @@
 
 set -e
 
+export PATH=${GOSU_HOME}/.cargo/bin:$PATH
+
 #
 # ⚠ All environment vars used here are defined in the Dockerfile.
 # ⚠ Refer to the Dockerfile if you want to change them.
