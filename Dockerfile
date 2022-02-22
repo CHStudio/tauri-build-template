@@ -12,7 +12,7 @@ ENV \
 
 WORKDIR /srv
 
-COPY docker/entrypoint.bash /bin/entrypoint
+COPY docker/entrypoint.sh /bin/entrypoint
 ENTRYPOINT ["/bin/entrypoint"]
 
 RUN set -xe \
