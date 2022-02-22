@@ -6,7 +6,7 @@ let tauriDriver;
 
 exports.config = {
   specs: [
-      "./test/specs/**/*.ts",
+    "./test/specs/**/*.ts",
   ],
   maxInstances: 1,
   capabilities: [
@@ -23,9 +23,11 @@ exports.config = {
           '--disable-gpu',
           '--window-size=1440,735'
         ],
+        ignoreDefaultArgs: true
       },
       'moz:firefoxOptions': {
-        args: ['-headless']
+        args: ['-headless'],
+        ignoreDefaultArgs: true
       },
     },
   ],
@@ -39,6 +41,13 @@ exports.config = {
 
   // Level of logging verbosity: trace | debug | info | warn | error | silent
   logLevel: 'trace',
+  logLevels: {
+    webdriver: 'trace',
+    '@wdio/appium-service': 'trace',
+    '@wdio/local-runner': 'trace',
+    '@wdio/mocha-framework': 'trace',
+    '@wdio/spec-reporter': 'trace'
+  },
 
   // Set directory to store all logs into
   outputDir: 'test_logs',
@@ -66,13 +75,12 @@ exports.config = {
     const tauriDriverPath = path.resolve(process.cwd(), '../../bin/tauri-driver');
 
     return tauriDriver = spawn(
-        tauriDriverPath,
-        [],
-        {stdio: [null, process.stdout, process.stderr]}
+      tauriDriverPath,
+      [],
+      {stdio: [null, process.stdout, process.stderr]}
     );
   },
 
   // clean up the `tauri-driver` process we spawned at the start of the session
   afterSession: () => tauriDriver.kill(),
 };
-
