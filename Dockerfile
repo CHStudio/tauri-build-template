@@ -44,10 +44,6 @@ RUN `# Node.js` \
     && apt-get install -y --no-install-recommends nodejs \
     && npm i -g npm yarn
 
-#RUN `# Webdriver binaries` \
-#    && (curl -L https://github.com/mozilla/geckodriver/releases/download/v0.30.0/geckodriver-v0.30.0-linux64.tar.gz | tar xz -C /usr/local/bin/) \
-#    && npm install -g chromedriver
-
 RUN `# Rust` \
     && gosu ${GOSU_USER}:${GOSU_USER} bash -c 'curl https://sh.rustup.rs -sSf | bash -s -- -y'
 
