@@ -1,0 +1,37 @@
+name: Test Tauri build
+
+on:
+    - push
+    - pull_request
+
+jobs:
+    test-tauri:
+        strategy:
+            fail-fast: false
+            matrix:
+                platform: [macos-latest, ubuntu-latest, windows-latest]
+
+        runs-on: ${{ matrix.platform }}
+        steps:
+            - uses: actions/checkout@v2
+            - name: setup node
+              uses: actions/setup-node@v1
+              with: { node-version: 16 }
+
+            - name: Install Rust
+              uses: actions-rs/toolchain@v1
+              with: { toolchain: stable }
+
+            - name: install webkit2gtk (ubuntu only)
+              if: matrix.platform == 'ubuntu-latest'
+              run: |
+                  sudo apt-get update
+                  sudo apt-get upgrade -y webkit2gtk-4.0
+
+            - name: Install dependencies
+              run: yarn
+
+            - name: Build application
+              uses: tauri-apps/tauri-action@v0
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

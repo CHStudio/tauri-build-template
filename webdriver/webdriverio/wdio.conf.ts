@@ -4,6 +4,8 @@ import * as path from "path";
 // keep track of the `tauri-driver` child process
 let tauriDriver;
 
+const binSuffix = process.platform === 'win32' ? '.exe' : '';
+
 exports.config = {
   specs: [
     "./test/specs/**/*.ts",
@@ -13,7 +15,7 @@ exports.config = {
     {
       maxInstances: 1,
       "tauri:options": {
-        application: "../../src-tauri/target/release/ch-desktop",
+        application: "../../src-tauri/target/release/ch-desktop"+binSuffix,
       },
       'goog:chromeOptions': {
         args: [
@@ -72,7 +74,7 @@ exports.config = {
 
   // ensure we are running `tauri-driver` before the session starts so that we can proxy the webdriver requests
   beforeSession: function () {
-    const tauriDriverPath = path.resolve(process.cwd(), '../../bin/tauri-driver');
+    const tauriDriverPath = path.resolve(process.cwd(), '../../bin/tauri-driver'+binSuffix);
 
     return tauriDriver = spawn(
       tauriDriverPath,
