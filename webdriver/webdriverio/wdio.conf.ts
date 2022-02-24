@@ -70,7 +70,10 @@ exports.config = {
   },
 
   // ensure the rust project is built since we expect this binary to exist for the webdriver sessions
-  onPrepare: () => spawnSync("cargo", ["build", "--release"]),
+  onPrepare: () => {
+    const tauriPath = path.resolve(process.cwd(), '../../bin/tauri'+binSuffix);
+    spawnSync(tauriPath, ["build"]);
+  },
 
   // ensure we are running `tauri-driver` before the session starts so that we can proxy the webdriver requests
   beforeSession: function () {

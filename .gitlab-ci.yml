@@ -58,18 +58,21 @@ build-front:
     paths:
       - dist
 
-unit-test:   # This job runs in the test stage.
+unit-test:
   image: node:16
-  stage: test    # It only starts when the job in the build stage completes successfully.
+  stage: test
   dependencies:
     - build-front
     - install-testing
+  before_script:
+    # Install WebDriver
+    - apt-get update && apt-get upgrade -y --no-install-recommends webkit2gtk-driver
   script:
     - yarn test
 
-lint-front:   # This job also runs in the test stage.
+lint-front:
   image: node:16
-  stage: test    # It can run at the same time as unit-test-job (in parallel).
+  stage: test
   dependencies:
     - install-front
   script:
@@ -78,9 +81,9 @@ lint-front:   # This job also runs in the test stage.
 compile-binary:
   image: rust:1-buster
   stage: compile
-#  dependencies:
-#    - unit-test
-#    - build-front
+  dependencies:
+    - unit-test
+    - build-front
   script:
     - ./bin/tauri build
   artifacts:
