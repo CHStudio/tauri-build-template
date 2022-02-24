@@ -69,13 +69,26 @@ node_modules:
 ## ──
 ##
 
-build-docker-image: ## Build the project's Docker image
-	@$(DOCKER) build --compress --tag registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop .
+docker-build: get-image-name ## Build the project's Docker image
+	@$(DOCKER) build --compress --tag $(DOCKER_IMAGE_NAME) .
 .PHONY: build-docker-image
 
-push:  ## Push the project's Docker image to Gitlab's registry
-	$(DOCKER) push registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
+docker-push: get-image-name ## Push the project's Docker image to Gitlab's registry
+	$(DOCKER) push $(DOCKER_IMAGE_NAME)
 .PHONY: push
+
+get-image-name:
+	@if [ -z "$(DOCKER_IMAGE_NAME)" ]; then \
+		printf $(_ERROR) "ERROR" "Please specify the name of the docker image you want to build."; \
+		printf $(_ERROR) "ERROR" ""; \
+		printf $(_ERROR) "ERROR" "Usage:"; \
+		printf $(_ERROR) "ERROR" "    make -e DOCKER_IMAGE_NAME=your_image_name [...]"; \
+		printf $(_ERROR) "ERROR" ""; \
+    	exit 1; \
+	else \
+    	echo "OKOK"; \
+	fi;
+.PHONY: get-image-name
 
 ##
 ## QA

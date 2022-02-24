@@ -27,7 +27,7 @@ stages:
   - compile
 
 install-front:
-  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
+  image: node:16
   stage: install
   script:
     - yarn install
@@ -37,7 +37,7 @@ install-front:
       - node_modules
 
 install-testing:
-  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
+  image: node:16
   stage: install
   script:
     - yarn --cwd webdriver/webdriverio install
@@ -47,7 +47,7 @@ install-testing:
       - webdriver/webdriverio/node_modules
 
 build-front:
-  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
+  image: node:16
   stage: build
   script:
     - yarn build
@@ -59,7 +59,7 @@ build-front:
       - dist
 
 unit-test:   # This job runs in the test stage.
-  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
+  image: node:16
   stage: test    # It only starts when the job in the build stage completes successfully.
   dependencies:
     - build-front
@@ -68,7 +68,7 @@ unit-test:   # This job runs in the test stage.
     - yarn test
 
 lint-front:   # This job also runs in the test stage.
-  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
+  image: node:16
   stage: test    # It can run at the same time as unit-test-job (in parallel).
   dependencies:
     - install-front
@@ -76,11 +76,11 @@ lint-front:   # This job also runs in the test stage.
     - yarn lint
 
 compile-binary:
-  image: registry.gitlab.com/chstudio-lab/gehealthcare/pocs/ch-desktop
+  image: rust:1-buster
   stage: compile
-  dependencies:
-    - unit-test
-    - build-front
+#  dependencies:
+#    - unit-test
+#    - build-front
   script:
     - ./bin/tauri build
   artifacts:
