@@ -9,24 +9,27 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                platform: [macos-latest, ubuntu-latest, windows-latest]
+                os:
+                    - macos-latest
+                    - ubuntu-latest
+                    - windows-latest
 
-        runs-on: ${{ matrix.platform }}
+        runs-on: ${{ matrix.os }}
         steps:
             - { name: "Checkout the code", uses: actions/checkout@v2 }
 
             - name: Setup Rust cache
               uses: actions/cache@v2
               with:
-                  key: ${{ runner.os }}-${{ hashFiles('src-tauri/Cargo.lock') }}
+                  key: ${{ matrix.os }}-${{ hashFiles('src-tauri/Cargo.lock') }}
                   path: |
-                    ~/.cargo/registry/index
-                    ~/.cargo/registry/cache
-                    ~/.cargo/git
-                    ./src-tauri/target
+                      ~/.cargo/registry/index
+                      ~/.cargo/registry/cache
+                      ~/.cargo/git
+                      ./src-tauri/target
 
             - name: 🍃 Install Node.js
-              uses: actions/setup-node@v1
+              uses: actions/setup-node@v2
               with:
                   node-version: 16
                   cache: yarn
@@ -39,13 +42,16 @@ jobs:
               with: { toolchain: stable }
 
             - name: Install webkit2gtk (ubuntu only)
-              if: matrix.platform == 'ubuntu-latest'
+              if: matrix.os == 'ubuntu-latest'
               run: |
                   sudo apt-get update
                   sudo apt-get upgrade -y --no-install-recommends webkit2gtk-4.0
 
-            - name: Install dependencies
+            - name: Install Node.js dependencies
               run: yarn install
+
+            - name: Download Rust dependencies
+              run: cargo fetch --manifest-path=src-tauri/Cargo.toml
 
             - name: Build frontend
               run: yarn build
