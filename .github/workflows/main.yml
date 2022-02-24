@@ -5,7 +5,7 @@ on:
     - pull_request
 
 jobs:
-    test-tauri:
+    build:
         strategy:
             fail-fast: false
             matrix:
@@ -15,9 +15,24 @@ jobs:
         steps:
             - { name: "Checkout the code", uses: actions/checkout@v2 }
 
+            - name: Setup Rust cache
+              uses: actions/cache@v2
+              with:
+                  key: ${{ runner.os }}-${{ hashFiles('src-tauri/Cargo.lock') }}
+                  path: |
+                    ~/.cargo/registry/index
+                    ~/.cargo/registry/cache
+                    ~/.cargo/git
+                    ./src-tauri/target
+
             - name: 🍃 Install Node.js
               uses: actions/setup-node@v1
-              with: { node-version: 16 }
+              with:
+                  node-version: 16
+                  cache: yarn
+                  cache-dependency-path: |
+                      yarn.lock
+                      webdriver/webdriverio/yarn.lock
 
             - name: 🦀 Install Rust
               uses: actions-rs/toolchain@v1
@@ -27,7 +42,7 @@ jobs:
               if: matrix.platform == 'ubuntu-latest'
               run: |
                   sudo apt-get update
-                  sudo apt-get upgrade -y webkit2gtk-4.0
+                  sudo apt-get upgrade -y --no-install-recommends webkit2gtk-4.0
 
             - name: Install dependencies
               run: yarn install
