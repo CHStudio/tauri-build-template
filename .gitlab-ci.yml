@@ -68,7 +68,7 @@ unit-test:
     # Install WebDriver
     - apt-get update && apt-get upgrade -y --no-install-recommends webkit2gtk-driver
   script:
-    - yarn test
+    - xvfb-run yarn test
 
 lint-front:
   image: node:16

@@ -61,7 +61,7 @@ jobs:
 
             - name: Test application
               run: |
-                  yarn test
+                  xvfb-run yarn test
 
             - name: Upload release artifacts
               uses: actions/upload-artifact@v2
