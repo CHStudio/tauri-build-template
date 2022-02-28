@@ -45,7 +45,7 @@ jobs:
               if: matrix.os == 'ubuntu-latest'
               run: |
                   sudo apt-get update
-                  sudo apt-get upgrade -y --no-install-recommends webkit2gtk-4.0
+                  sudo apt-get upgrade -y --no-install-recommends webkit2gtk-4.0 xvfb xauth
 
             - name: Install Node.js dependencies
               run: yarn install
