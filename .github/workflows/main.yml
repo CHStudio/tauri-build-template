@@ -10,9 +10,9 @@ jobs:
             fail-fast: false
             matrix:
                 os:
-                    - macos-latest
+#                    - macos-latest
                     - ubuntu-latest
-                    - windows-latest
+#                    - windows-latest
 
         runs-on: ${{ matrix.os }}
         steps:
@@ -60,7 +60,9 @@ jobs:
               run: yarn tauri build
 
             - name: Test application
-              run: yarn test
+              run: |
+                  sudo apt-get upgrade -y --no-install-recommends webkit2gtk-4.0
+                  yarn test
 
             - name: Upload release artifacts
               uses: actions/upload-artifact@v2
