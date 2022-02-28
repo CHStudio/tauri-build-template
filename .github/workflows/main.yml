@@ -68,4 +68,4 @@ jobs:
                   name: release-${{ matrix.os }}
                   path: |
                       src-tauri/target/release/bundle
-                      src-tauri/target/CHDesktop*
+                      src-tauri/target/release/CHDesktop*
