@@ -17,20 +17,6 @@ exports.config = {
       "tauri:options": {
         application: "../../src-tauri/target/release/ch-desktop"+binSuffix,
       },
-      'goog:chromeOptions': {
-        args: [
-          '--no-sandbox',
-          '--disable-infobars',
-          '--headless',
-          '--disable-gpu',
-          '--window-size=1440,735'
-        ],
-        ignoreDefaultArgs: true
-      },
-      'moz:firefoxOptions': {
-        args: ['-headless'],
-        ignoreDefaultArgs: true
-      },
     },
   ],
   reporters: ["spec"],
@@ -45,28 +31,9 @@ exports.config = {
   logLevel: 'trace',
   logLevels: {
     webdriver: 'trace',
-    '@wdio/appium-service': 'trace',
     '@wdio/local-runner': 'trace',
     '@wdio/mocha-framework': 'trace',
     '@wdio/spec-reporter': 'trace'
-  },
-
-  // Set directory to store all logs into
-  outputDir: 'test_logs',
-
-  autoCompileOpts: {
-    autoCompile: true,
-    // see https://github.com/TypeStrong/ts-node#cli-and-programmatic-options
-    // for all available options
-    tsNodeOpts: {
-      transpileOnly: true,
-      project: 'tsconfig.json'
-    },
-    // tsconfig-paths is only used if "tsConfigPathsOpts" are provided, if you
-    // do please make sure "tsconfig-paths" is installed as dependency
-    tsConfigPathsOpts: {
-      baseUrl: './'
-    }
   },
 
   // ensure the rust project is built since we expect this binary to exist for the webdriver sessions
