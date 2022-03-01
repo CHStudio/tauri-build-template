@@ -43,14 +43,20 @@ exports.config = {
   },
 
   // ensure we are running `tauri-driver` before the session starts so that we can proxy the webdriver requests
-  beforeSession: function () {
+  beforeSession: async function () {
     const tauriDriverPath = path.resolve(process.cwd(), '../../bin/tauri-driver'+binSuffix);
 
-    return tauriDriver = spawn(
-      tauriDriverPath,
-      [],
-      {stdio: [null, process.stdout, process.stderr]}
-    );
+    // Wait for the driver to be fully operational
+    await Promise.all([
+        new Promise(resolve => setTimeout(resolve, 1000)),
+        Promise.resolve(tauriDriver = spawn(
+            tauriDriverPath,
+            [],
+            {stdio: [null, process.stdout, process.stderr]}
+        ))
+    ]);
+
+    return tauriDriver;
   },
 
   // clean up the `tauri-driver` process we spawned at the start of the session
