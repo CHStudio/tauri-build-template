@@ -15,7 +15,7 @@ exports.config = {
     {
       maxInstances: 1,
       "tauri:options": {
-        application: "../../src-tauri/target/release/ch-desktop"+binSuffix,
+        application: "../../src-tauri/target/release/CHDesktop"+binSuffix,
       },
     },
   ],
