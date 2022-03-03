@@ -1,6 +1,6 @@
 {
   "package": {
-    "productName": "CHDesktop",
+    "productName": "ch-desktop",
     "version": "0.1.0"
   },
   "build": {
