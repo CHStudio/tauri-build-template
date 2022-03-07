@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint",
     "tauri:build": "vue-cli-service tauri:build",
     "tauri:serve": "vue-cli-service tauri:serve",
+    "pretty": "prettier --write src webdriver package.json babel.config.js public",
     "test": "yarn --cwd webdriver/webdriverio/ test",
     "postinstall": "yarn --cwd webdriver/webdriverio/"
   },

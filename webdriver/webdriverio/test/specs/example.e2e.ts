@@ -11,4 +11,3 @@ describe("Hello Tauri", () => {
     expect(text).toMatch(/!$/);
   });
 });
-
