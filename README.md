@@ -43,4 +43,5 @@ yarn tauri:build
 
 ```
 yarn lint
+yarn pretty
 ```
