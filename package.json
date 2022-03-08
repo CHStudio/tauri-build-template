@@ -18,8 +18,8 @@
     "vue": "^3.2.31"
   },
   "devDependencies": {
-    "@tauri-apps/api": "^1.0.0-rc.1",
-    "@tauri-apps/cli": "^1.0.0-rc.5",
+    "@tauri-apps/api": "^1.0.0-rc.2",
+    "@tauri-apps/cli": "^1.0.0-rc.7",
     "@vue/cli-plugin-babel": "^4.5.15",
     "@vue/cli-plugin-eslint": "^4.5.15",
     "@vue/cli-service": "^4.5.15",
