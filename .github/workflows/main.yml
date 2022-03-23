@@ -52,18 +52,24 @@ jobs:
             - name: Download Rust dependencies
               run: cargo fetch --manifest-path=src-tauri/Cargo.toml
 
-            - name: Build application
+            - name: Build frontend app
               run: |
-                  yarn tauri:build
-                  # Cross-platform "ls" equivalent
-                  node -e "const fs=require('fs');fs.readdirSync('./src-tauri/target/release/').forEach(file => console.info(file));"
+                  yarn build
 
-            - name: Test application (linux)
+            - name: Build desktop app
+              run: |
+                  yarn tauri build
+
+            - name: Unit tests
+              run: |
+                  yarn run test:unit
+
+            - name: End-to-end Tests (linux)
               if: matrix.os == 'ubuntu-latest'
               run: |
-                  xvfb-run yarn test
+                  xvfb-run yarn run test:e2e
 
-            - name: Test application (non-linux)
+            - name: End-to-end Tests (non-linux)
               if: matrix.os != 'ubuntu-latest'
               run: |
                   yarn test
@@ -75,3 +81,4 @@ jobs:
                   path: |
                       src-tauri/target/release/bundle
                       src-tauri/target/release/ch-desktop*
+
