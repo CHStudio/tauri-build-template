@@ -31,17 +31,21 @@ yarn tauri:serve
 
 > Since the project uses `vue-cli-plugin-tauri`, running `tauri:serve` will automatically run `yarn serve` beforehand, so the HTTP server is available when the Tauri apps is running. 
 
-### Compile for production
-
-```
-yarn tauri:build
-```
-
-> This command builds the app in the `src-tauri/target/release/` directory.
-
 ### Lints and fixes files
 
 ```
 yarn lint
 yarn pretty
 ```
+
+### Process to build for release/production
+
+For development, `yarn tauri:serve` will do what you need. For building, however, we do not recommend using `yarn tauri:build`, but instead use another method.
+
+Since it is sometimes important to separate concerns between Rust and Node.js ecosystems, we recommend you do the building in **two processes**:
+
+1. Run `yarn build` to build your Vue app as static files in the `dist/` directory.
+2. Run `./bin/tauri build` (`.\bin\tauri.exe build` on Windows) to create the final binary in the `src-tauri/target/release/` directory.
+
+> You could still use `yarn tauri:build`, but somehow it does not build the app the same way (there are some errors, feel free to drop an issue if you want to know more), and it combines a nodejs-installed version of the Tauri CLI binary, while we could just install it with Cargo.
+> This breaks separation of concerns, so we do not recommend it.
