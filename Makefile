@@ -84,9 +84,7 @@ get-image-name:
 		printf $(_ERROR) "ERROR" "Usage:"; \
 		printf $(_ERROR) "ERROR" "    make -e DOCKER_IMAGE_NAME=your_image_name [...]"; \
 		printf $(_ERROR) "ERROR" ""; \
-    	exit 1; \
-	else \
-    	echo "OKOK"; \
+		exit 1; \
 	fi;
 .PHONY: get-image-name
 
