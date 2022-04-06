@@ -6,6 +6,7 @@
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
+        "icons": "tauricon src/assets/logo.png --target=src-tauri/icons",
         "lint": "vue-cli-service lint",
         "tauri:build": "vue-cli-service tauri:build",
         "tauri:serve": "vue-cli-service tauri:serve",
@@ -23,6 +24,7 @@
         "@babel/eslint-parser": "^7.17.0",
         "@tauri-apps/api": "^1.0.0-rc.3",
         "@tauri-apps/cli": "^1.0.0-rc.8",
+        "@tauri-apps/tauricon": "github:tauri-apps/tauricon",
         "@vue/cli-plugin-babel": "^5.0.4",
         "@vue/cli-plugin-eslint": "^5.0.4",
         "@vue/cli-plugin-unit-jest": "^5.0.4",
