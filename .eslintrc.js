@@ -12,13 +12,13 @@ module.exports = {
         'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
         'prettier/prettier': [
-            'error',
+            'warn',
             {
                 endOfLine: 'auto',
             },
         ],
         'prettier-vue/prettier': [
-            'error',
+            'warn',
             {
                 endOfLine: 'auto',
             },
